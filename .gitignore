@@ -2,7 +2,7 @@
 __pycache__/
 *.py[codz]
 *$py.class
-chroma.sqlite3
+db/
 # C extensions
 *.so
 
