@@ -13,7 +13,8 @@ from langchain_core.documents import Document
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import ChatOpenAI
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_community.retrievers import BM25Retriever
@@ -37,8 +38,9 @@ class AdvancedRAGSystem:
     def __init__(self, persist_directory: str = "./db", collection_name: str = "advanced_rag_collection"):
         # 1. Initialize LLMs from LM Studio
         # Adjust temperature based on your needs
-        self.default_model = "qwen/qwen3.5-35b-a3b"
-        self.embeddings = OpenAIEmbeddings()
+        self.default_model = "qwen3-vl-30b-a3b-instruct"
+        # LM Studio에서 별도의 임베딩 모델을 로드하지 않아도 되도록 로컬 허깅페이스 임베딩 사용
+        self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
         # 2. Setup Vector Store (Chroma) for semantic search
         self.persist_directory = persist_directory
